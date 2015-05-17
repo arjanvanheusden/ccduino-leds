@@ -6,11 +6,11 @@
  */
 #include <avr/interrupt.h>
 #include "../peripherals/USART.h"
+#include "../peripherals/ISR.h"
 
 void ISR_init(void)
 {
 	/*enable interrupt global*/
-	sei();
+	ISR_enable();
 }
-
 

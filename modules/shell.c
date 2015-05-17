@@ -32,6 +32,7 @@ typedef struct
 } t_command;
 
 /*Command handler functions*/
+unsigned char handleCmd_adc(void **);
 unsigned char handleCmd_help(void **);
 unsigned char handleCmd_timer(void **);
 
@@ -39,7 +40,8 @@ unsigned char handleCmd_timer(void **);
 t_command commandList[] ={
 		{"help",handleCmd_help, "you get this view"}, /*Must be first*/
 		{"led",handleCmd_led, "do led stuff"},
-		{"tim", handleCmd_timer, "do timer stuff"}
+		{"tim", handleCmd_timer, "do timer stuff"},
+		{"adc", handleCmd_adc, "adc test function"}
 
 };
 
@@ -152,4 +154,28 @@ unsigned char handleCmd_help(void ** args)
 	return 0;
 }
 
+unsigned char handleCmd_adc(void ** args)
+{
+	unsigned int i;
+
+	/*get first argument as string*/
+	unsigned char * arg1 = (unsigned char *)args[0];
+
+	if(!strcmp(arg1, "test")) {
+
+		USART_printf("ADC sample: ");
+		for(i=0;i< 1000; i++)
+		{
+			USART_printf(itoa(adcSampleBlocking()));
+			USART_printf("\r\n");
+		}
+	} else if(!strcmp(arg1, "cont")) {
+		/*install timer which calls adc continuously.*/
+
+		/*install timer which handles chunk of samples*/
+	}
+	else
+		USART_printf("argument 'test' or 'cont' expected \r\n");
+
+}
 
