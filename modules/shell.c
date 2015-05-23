@@ -8,6 +8,7 @@
 #include "../general.h"
 #include "../modules/console.h"
 #include "../modules/led.h"
+#include "../modules/ledString.h"
 #include "../modules/shell.h"
 #include "../peripherals/TIMERS.h"
 #include "../peripherals/USART.h"
@@ -41,7 +42,8 @@ t_command commandList[] ={
 		{"help",handleCmd_help, "you get this view"}, /*Must be first*/
 		{"led",handleCmd_led, "do led stuff"},
 		{"tim", handleCmd_timer, "do timer stuff"},
-		{"adc", handleCmd_adc, "adc test function"}
+		{"adc", handleCmd_adc, "adc test function"},
+		{"leds", ledStringSetProgram, "Set Ledstring program"}
 
 };
 

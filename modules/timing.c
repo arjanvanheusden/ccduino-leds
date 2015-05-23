@@ -11,7 +11,7 @@
 
 
 #define MAXTIMERREGISTERED 10
-#define INVALID_TIMERID 255
+
 
 
 typedef struct{
@@ -51,7 +51,7 @@ unsigned char timer_update(timer_handler_func func,
 		timerReg[timer_id].nrOfExecsCount = 0;
 		timerReg[timer_id].interval = interval;
 		timerReg[timer_id].count = 0;
-		timerReg[timer_id].running = 0;
+		//timerReg[timer_id].running = 0;
 		return timer_id;
 	}
 	else return INVALID_TIMERID;
@@ -83,6 +83,15 @@ unsigned char timer_start(unsigned char timer_id)
 	}
 	return was_running;
 }
+
+void timerClrNrOfExecs(unsigned char timer_id)
+{
+
+	if(timer_id <timerRegReservedCnt){
+		timerReg[timer_id].nrOfExecsCount = 0;
+	}
+}
+unsigned int timerGetNrOdExecs(unsigned char timer_id){return timerReg[timer_id].nrOfExecsCount;}
 
 unsigned char timer_stop(unsigned char timer_id)
 {
@@ -118,10 +127,15 @@ void timing_process(void)
 							||
 							timerReg[i].nrOfExecs == 0){
 						/* Execute function, pass exec counter */
-						timerReg[i].func(timerReg[i].nrOfExecsCount, timerReg[timerRegReservedCnt].nrOfExecs);
+						if(timerReg[i].func != 0)
+							timerReg[i].func(timerReg[i].nrOfExecsCount, timerReg[timerRegReservedCnt].nrOfExecs);
 						/* increment exec counter*/
 						timerReg[i].nrOfExecsCount++;
+
 					}
+					/*reset counter*/
+					if(timerReg[i].nrOfExecs != 0)
+						timerReg[i].nrOfExecsCount %= timerReg[i].nrOfExecs;
 
 				}
 			}

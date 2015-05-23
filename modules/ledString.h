@@ -10,5 +10,6 @@
 
 void ledStringInit();
 void ledStringProcess();
+void ledStringSetProgram(void ** args );
 
 #endif /* MODULES_LEDSTRING_H_ */
