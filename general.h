@@ -15,7 +15,15 @@
 #include "./peripherals/USART.h"
 #define DBG(str) USART_printf(str);
 
+typedef struct
+{
+
+	unsigned char R;
+	unsigned char G;
+	unsigned char B;
+} ws2812led;
 
 
-
+char* itoa(int i);
+int atoi(char *);
 #endif /* GENERAL_H_ */

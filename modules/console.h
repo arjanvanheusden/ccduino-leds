@@ -6,7 +6,7 @@
 #define CONSOLE_BLOCKING 1
 
 
-unsigned char console_process(unsigned char blocking, unsigned char *result, unsigned int maxlen);
+char console_process(unsigned char blocking, char *result, unsigned int maxlen);
 
 #define console_BACKSPACE 8
 #define console_ENTER 13

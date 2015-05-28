@@ -1,15 +1,6 @@
 #include "../peripherals/ws2812.h"
 #include "../modules/timing.h"
 
-// TODO: add header
-typedef struct
-{
-
-	unsigned char R;
-	unsigned char G;
-	unsigned char B;
-} ws2812led;
-
 #define LEDGREEN {255,0,0}
 #define LEDRED {0,255,0}
 #define LEDBLUE {0,0,255}
@@ -93,7 +84,7 @@ void ledStringDefault()
 }
 
 /*alternate led blink*/
-void ledStringRoundBlue()
+void ledStringRound()
 {
 	unsigned char i = ((programCounter/20)%8);
 	if(programCounter%20 == 0)
@@ -107,6 +98,18 @@ void ledStringRoundBlue()
 
 
 void ledStringProg1()
+{
+	unsigned char i;
+	int val;
+	for(i=0;i<8;i++)
+	{
+		val = ((programCounter+(7-i))%8)*32;
+		setLed((unsigned char)(val),0,0,255,&leds[7-i]);
+	}
+}
+
+/*with several inputs fire and let die out... todo*/
+void ledStringPulse()
 {
 	unsigned char i;
 	int val;
@@ -140,7 +143,7 @@ void ledStringProcess()
 				ledStringProg1();
 				break;
 			case 2:
-				ledStringRoundBlue();
+				ledStringRound();
 				break;
 			default:
 				ledStringDefault();
@@ -152,6 +155,7 @@ void ledStringProcess()
 void ledStringSetProgram(void ** args )
 {
 	unsigned int numArg = atoi(((unsigned char **) args)[1]);
+	unsigned int numArg2 = atoi(((unsigned char **) args)[2]);
 	/*get sub command*/
 	if(strcmp((((unsigned char **) args)[0]), "prog" )==0)
 	{
@@ -165,7 +169,7 @@ void ledStringSetProgram(void ** args )
 	}
 	else if(strcmp((((unsigned char **) args)[0]), "effect" )==0)
 	{
-		setLedEffect(numArg);
+		setLedEffect(numArg,(unsigned char)numArg2);
 	}
 	else
 	{

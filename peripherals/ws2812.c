@@ -5,19 +5,34 @@
  *      Author: arjan / code stolen from neopixel
  */
 
+#include "../general.h"
 #include "../peripherals/ISR.h"
 
+
 //todo: assign to physical port
-unsigned char * port;
+volatile unsigned char * port;
 unsigned char pinMask = 0x01;
 
-void showPixel(unsigned char * pixels, unsigned int numBytes)
+
+void ws2812Init()
+{
+
+	/*set PB0 as output*/
+	PORTB = 0x00;
+	DDRB = 0x01;
+
+	/*set outp pointer*/
+	port = &PORTB;
+}
+
+
+void showPixel(ws2812led * pixels, unsigned char numLeds, unsigned int numBytes)
 {
 
   volatile unsigned int
     i   = numBytes; // Loop counter
   volatile unsigned char
-   *ptr = pixels,   // Pointer to next byte
+   *ptr = (unsigned char *)pixels,   // Pointer to next byte
     b   = *ptr++,   // Current byte value
     hi,             // PORT w/output bit set high
     lo;             // PORT w/output bit set low

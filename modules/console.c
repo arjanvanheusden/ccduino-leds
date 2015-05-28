@@ -7,9 +7,9 @@ static unsigned char i = 0;
 
 */
 
-unsigned char console_process(unsigned char blocking, unsigned char *result, unsigned int maxlen)
+char console_process(unsigned char blocking, char *result, unsigned int maxlen)
 {
-	unsigned char * console_input;
+	char * console_input;
 	char cur_char = 0;
 	
 	/*set result pointer*/

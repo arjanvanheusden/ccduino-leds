@@ -40,6 +40,9 @@ int main (void)
 		/*exec timer process*/
 		timing_process();
 
+		/*exec led updater*/
+		ledStringProcess();
+
 
 /* set pin 5 of PORTB for output*/
  //
@@ -69,6 +72,10 @@ void init_main()
 	USART_Init(1);
 	TIMERS_Init();
 	EEPROM_Init();
+	ws2812Init();
+	ledStringInit();
+	ledEffectInit();
 	ISR_init();
+
 }
 

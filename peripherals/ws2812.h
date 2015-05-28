@@ -7,7 +7,8 @@
 
 #ifndef MODULES_WS2812_H_
 #define MODULES_WS2812_H_
+#include "../general.h"
 
-void showPixel(unsigned char * pixels, unsigned char numLeds, unsigned int numBytes);
+void showPixel(ws2812led * pixels, unsigned char numLeds, unsigned int numBytes);
 
 #endif /* MODULES_WS2812_H_ */

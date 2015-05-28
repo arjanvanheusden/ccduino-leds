@@ -10,6 +10,7 @@
 #include "../modules/timing.h"
 
 void func_ledMode_Blink_heartbeat(unsigned int, unsigned int);
+void startLedMode(e_ledMode ledmode, unsigned int arg1, unsigned int arg2);
 
 unsigned char timer_id = 255;
 
@@ -28,7 +29,7 @@ unsigned char handleCmd_led(void ** args)
 	if(numargs != 2)
 	{
 		USART_printf("X - args, need 2, got "); USART_printf(itoa(numargs));
-		return;
+		return 0;
 	}
 
 	startLedMode(e_ledmode_Blink_heartbeat,atoi(args[0]), atoi(args[1]));

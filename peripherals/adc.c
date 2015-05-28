@@ -57,7 +57,7 @@ unsigned int adcSampleBlocking()
 
 void adcSample()
 {
-	/* if no conversion in progress*/
+	/* if no conversion in progress: start conversion*/
 	if((ADCSRA & ADADIE)==0){
 		ADCSRA |=  ADSTARTCONV;
 

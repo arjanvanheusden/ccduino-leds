@@ -12,6 +12,7 @@
 #include "../modules/shell.h"
 #include "../peripherals/TIMERS.h"
 #include "../peripherals/USART.h"
+#include "../peripherals/adc.h"
 
 #define MAXNROFINPS 10
 #define SHELL_CMDLEN 6
@@ -27,9 +28,9 @@ struct tdShellInput shellInputInfo;
 /*Command structure typedef*/
 typedef struct
 {
-	unsigned char cmd[SHELL_CMDLEN];
+	char cmd[SHELL_CMDLEN];
 	unsigned char (*doCmd)(void **);
-	unsigned char descr[40];
+	char descr[40];
 } t_command;
 
 /*Command handler functions*/
@@ -47,7 +48,7 @@ t_command commandList[] ={
 
 };
 
-unsigned char input_str[CONSOLE_MAXLEN];
+char input_str[CONSOLE_MAXLEN];
 void shellProcess()
 {
 	if(console_process(CONSOLE_NON_BLOCKING,input_str, CONSOLE_MAXLEN)) {
@@ -110,8 +111,8 @@ void shell_process(char * str)
  */
 void shell_HandleCommand( char ** inp)
 {
-	int i,j;
-	bool bCmdEqual = true, bMatchFound = false;
+	int i;
+	bool bMatchFound = false;
 	t_command *checkCommand = &(commandList[0]);
 
 
@@ -179,5 +180,6 @@ unsigned char handleCmd_adc(void ** args)
 	else
 		USART_printf("argument 'test' or 'cont' expected \r\n");
 
+	return 0;
 }
 
