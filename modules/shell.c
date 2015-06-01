@@ -159,7 +159,8 @@ unsigned char handleCmd_help(void ** args)
 
 unsigned char handleCmd_adc(void ** args)
 {
-	unsigned int i;
+	 int i, sample, min = 1024, max = 0;
+	unsigned int average =0;
 
 	/*get first argument as string*/
 	unsigned char * arg1 = (unsigned char *)args[0];
@@ -167,18 +168,32 @@ unsigned char handleCmd_adc(void ** args)
 	if(!strcmp(arg1, "test")) {
 
 		USART_printf("ADC sample: ");
-		for(i=0;i< 1000; i++)
+		for(i=0;i< 100; i++)
 		{
-			USART_printf(itoa(adcSampleBlocking()));
+			sample = adcSampleBlocking();
+			USART_printf(itoa(sample));
 			USART_printf("\r\n");
+			if(min > sample) min = sample;
+			if(max < sample) max = sample;
+			average += sample;
 		}
+
+
+		USART_printf("min:");
+		USART_printf(itoa(min));
+
+		USART_printf("max:");
+		USART_printf(itoa(max));
+		USART_printf("avg:");
+		USART_printf(itoa((unsigned int)(average/100)));
+
 	} else if(!strcmp(arg1, "cont")) {
 		/*install timer which calls adc continuously.*/
 
 		/*install timer which handles chunk of samples*/
 	}
 	else
-		USART_printf("argument 'test' or 'cont' expected \r\n");
+		USART_printf("arg: 't'||'c'\r\n");
 
 	return 0;
 }

@@ -75,6 +75,8 @@ void init_main()
 	ws2812Init();
 	ledStringInit();
 	ledEffectInit();
+	adcInit();
+	ExtIntInit();
 	ISR_init();
 
 }

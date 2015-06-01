@@ -16,7 +16,7 @@
 #define ADENABLED 0x80
 #define ADSTARTCONV 0x40
 #define ADADATE 0x20
-#define ADADIE 0x10
+#define ADADIF 0x10
 #define ADINTENABLE 0x08
 #define ADPRESCALER128 0x07
 
@@ -31,6 +31,7 @@ void adcInit()
 
 	/*set digital inputs to 0*/
 	DIDR0 = 0;
+
 }
 
 unsigned int adcSampleBlocking()
@@ -41,24 +42,28 @@ unsigned int adcSampleBlocking()
 	/* turn off interrupt and start conversion*/
 	ADCSRA = (prevAdcsra & ~ADINTENABLE) | ADSTARTCONV;
 
+
 	/*wait until done*/
 	while(ADCSRA & ADSTARTCONV);
 
 	/*clear isr flag*/
-	ADCSRA &= ~ADADIE;
+	ADCSRA &= ~ADADIF;
+
 
 	/*copy result*/
-	*((unsigned char*)&retval) = ADCH;
+	*((unsigned char*)&retval) = ADCL;
 	*(((unsigned char*)&retval)+1) = ADCH;
 
 	/*restore interrupt setting*/
-	ADCSRA = prevAdcsra;
+	//ADCSRA = prevAdcsra;
+
+	return retval;
 }
 
 void adcSample()
 {
 	/* if no conversion in progress: start conversion*/
-	if((ADCSRA & ADADIE)==0){
+	if((ADCSRA & ADADIF)==0){
 		ADCSRA |=  ADSTARTCONV;
 
 	}
